@@ -1,6 +1,8 @@
 bugreporthelper
 ===============
 
+<p style="text-align:center"><img src="http://www.blogcdn.com//media/2013/08/km-user-input-for-bug-helper.jpg" border="1" width="456" height="166" alt="" /></p>
+
 Shell script and Keyboard Maestro macro to quickly insert system information into bug reports.
 
 ### Background ###
@@ -27,27 +29,6 @@ So I came up with an easy way to include the information without requiring much 
 Here's an example of what the output would look like:
 
 *(Note: I'm just using Fantastical as an example of an app, not suggesting that it's buggy. In fact, I don't think I've ever run into a bug with it.)*
-
-
-	Version Information for: /Applications/Fantastical.app
-		  CFBundleShortVersionString 1.3.9 
-		  CFBundleVersion 234 
-
-	Hardware Information:
-		  Model Name: MacBook Air
-		  Model Identifier: MacBookAir3,2
-		  Processor Name: Intel Core 2 Duo
-		  Processor Speed: 2.13 GHz
-		  Number of Processors: 1
-		  Total Number of Cores: 2
-		  L2 Cache: 6 MB
-		  Memory: 4 GB
-
-	Operating System Information:
-		  ProductName:	Mac OS X
-		  OS X Version:	10.8.4
-		  BuildVersion:	12E55
-
 
 ### Installation ##
 
