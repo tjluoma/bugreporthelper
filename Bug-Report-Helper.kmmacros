@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>Activate</key>
+		<string>Normal</string>
+		<key>IsActive</key>
+		<true/>
+		<key>Macros</key>
+		<array>
+			<dict>
+				<key>Actions</key>
+				<array>
+					<dict>
+						<key>Buttons</key>
+						<array>
+							<dict>
+								<key>Button</key>
+								<string>Insert Info</string>
+								<key>Cancel</key>
+								<false/>
+							</dict>
+							<dict>
+								<key>Button</key>
+								<string>Cancel</string>
+								<key>Cancel</key>
+								<true/>
+							</dict>
+						</array>
+						<key>IsActive</key>
+						<true/>
+						<key>IsDisclosed</key>
+						<true/>
+						<key>MacroActionType</key>
+						<string>PromptForUserInput</string>
+						<key>Prompt</key>
+						<string>If you are requesting support for an Application (or preference pane), enter its name and I will include version information for the app (if found). </string>
+						<key>ResultButtonVariable</key>
+						<string>Result Button</string>
+						<key>TimeOutAbortsMacro</key>
+						<true/>
+						<key>Title</key>
+						<string>%ExecutingMacro%</string>
+						<key>Variables</key>
+						<array>
+							<dict>
+								<key>Default</key>
+								<string>(optional)</string>
+								<key>Variable</key>
+								<string>BUG_REPORT_APP_NAME</string>
+							</dict>
+						</array>
+					</dict>
+					<dict>
+						<key>ClipboardTargetNamedClipboardRedundantDisplayName</key>
+						<string>Default Clipboard</string>
+						<key>ClipboardTargetNamedClipboardUID</key>
+						<string>D57D4733-FD68-4DFE-AF03-56A9DB464EDB</string>
+						<key>ClipboardTargetUseNamedClipboard</key>
+						<false/>
+						<key>DisplayKind</key>
+						<string>Clipboard</string>
+						<key>IsActive</key>
+						<true/>
+						<key>IsDisclosed</key>
+						<true/>
+						<key>MacroActionType</key>
+						<string>ExecuteShellScript</string>
+						<key>Path</key>
+						<string></string>
+						<key>Text</key>
+						<string>#!/bin/zsh -f
+# Purpose: show relevant information about this Mac (helpful for bug reporting)
+#
+# From:	Tj Luo.ma
+# Mail:	luomat at gmail dot com
+# Web: 	http://RhymesWithDiploma.com
+# Date:	2013-08-03
+
+NAME="$0:t:r"
+
+
+####|####|####|####|####|####|####|####|####|####|####|####|####|####|####
+#
+#		If we received information from Keyboard Maestro, search for the
+#		appropriate app or preference pane.
+#
+
+if [ "$KMVAR_BUG_REPORT_APP_NAME" != "(optional)" -a  "$KMVAR_BUG_REPORT_APP_NAME" != "" ]
+then
+
+mdfind filename:"$KMVAR_BUG_REPORT_APP_NAME" \
+	-onlyin "/Applications" \
+	-onlyin "/Library/PreferencePanes" \
+	-onlyin "$HOME/Library/PreferencePanes" \
+	-onlyin "$HOME/Applications" |\
+while read line
+do
+
+PLIST="$line/Contents/Info.plist"
+
+if [ -e "$PLIST" ]
+then
+
+echo "\nVersion Information for: $line"
+
+
+# Don't indent this or you'll mess up the sed newline replacement
+plutil -convert xml1 -o - "$PLIST" | egrep -A1 '(CFBundleVersion|CFBundleShortVersionString)' | sed 's#&lt;key&gt;##g; s#&lt;/key&gt;##g ; s#&lt;string&gt;##g; s#&lt;/string&gt;##g' | tr -s '\t|\012' ' ' | sed 's#--#\
+#g' | sed 's#^#     #g'
+
+fi
+
+done
+
+fi # if KMVAR_BUG_REPORT_APP_NAME
+###################################
+
+	###################################
+	### Display only relevant hardware info
+echo "\nHardware Information:"
+system_profiler SPHardwareDataType | egrep 'Model Name|Model Identifier|Processor|Cores|Cache|Memory'
+
+	###################################
+	### Display OS info
+echo "\nOperating System Information:"
+sw_vers | sed 's#ProductVersion:#OS X Version:#g  ;  s#^#      #g'
+
+
+exit
+#
+#EOF
+</string>
+						<key>TimeOutAbortsMacro</key>
+						<true/>
+						<key>TrimResults</key>
+						<false/>
+						<key>TrimResultsNew</key>
+						<false/>
+						<key>UseText</key>
+						<true/>
+					</dict>
+					<dict>
+						<key>Conditions</key>
+						<dict>
+							<key>ConditionList</key>
+							<array>
+								<dict>
+									<key>ConditionType</key>
+									<string>Menu</string>
+									<key>MenuConditionSelectionType</key>
+									<string>Contains</string>
+									<key>MenuConditionType</key>
+									<string>IsEnabled</string>
+									<key>MenuTitle</key>
+									<string>Paste</string>
+								</dict>
+							</array>
+							<key>ConditionListMatch</key>
+							<string>All</string>
+						</dict>
+						<key>ElseActions</key>
+						<array>
+							<dict>
+								<key>IsActive</key>
+								<true/>
+								<key>IsDisclosed</key>
+								<true/>
+								<key>MacroActionType</key>
+								<string>Notification</string>
+								<key>SoundName</key>
+								<string>Sosumi</string>
+								<key>Subtitle</key>
+								<string>%LongTime%</string>
+								<key>Text</key>
+								<string>Could not paste into %Application%1%. Information has been saved to the system clipboard.</string>
+								<key>Title</key>
+								<string>%ExecutingMacro%</string>
+							</dict>
+						</array>
+						<key>IsActive</key>
+						<true/>
+						<key>IsDisclosed</key>
+						<true/>
+						<key>MacroActionType</key>
+						<string>IfThenElse</string>
+						<key>ThenActions</key>
+						<array>
+							<dict>
+								<key>Action</key>
+								<string>ByPasting</string>
+								<key>IsActive</key>
+								<true/>
+								<key>IsDisclosed</key>
+								<true/>
+								<key>MacroActionType</key>
+								<string>InsertText</string>
+								<key>Paste</key>
+								<true/>
+								<key>Text</key>
+								<string>%CurrentClipboard%</string>
+							</dict>
+							<dict>
+								<key>IsActive</key>
+								<true/>
+								<key>IsDisclosed</key>
+								<true/>
+								<key>MacroActionType</key>
+								<string>SetClipboardToPastClipboard</string>
+								<key>PastExpression</key>
+								<string>1</string>
+								<key>TargetNamedClipboardRedundantDisplayName</key>
+								<string>Default Clipboard</string>
+								<key>TargetNamedClipboardUID</key>
+								<string>D57D4733-FD68-4DFE-AF03-56A9DB464EDB</string>
+								<key>TargetUseNamedClipboard</key>
+								<false/>
+							</dict>
+						</array>
+						<key>TimeOutAbortsMacro</key>
+						<true/>
+					</dict>
+				</array>
+				<key>IsActive</key>
+				<true/>
+				<key>ModificationDate</key>
+				<real>397219061.94575</real>
+				<key>Name</key>
+				<string>Bug Report Helper</string>
+				<key>Triggers</key>
+				<array>
+					<dict>
+						<key>FireType</key>
+						<string>Pressed</string>
+						<key>KeyCode</key>
+						<integer>18</integer>
+						<key>MacroTriggerType</key>
+						<string>HotKey</string>
+						<key>Modifiers</key>
+						<integer>6912</integer>
+					</dict>
+					<dict>
+						<key>MacroTriggerType</key>
+						<string>StatusMenu</string>
+					</dict>
+				</array>
+				<key>UID</key>
+				<string>2D7486AF-5D1B-41B1-85DB-AD3E200875D9</string>
+			</dict>
+		</array>
+		<key>Name</key>
+		<string>Global Macro Group</string>
+		<key>UID</key>
+		<string>DA8512F7-F323-46B1-8319-752E0495CFD0</string>
+	</dict>
+</array>
+</plist>
