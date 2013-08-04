@@ -7,7 +7,7 @@ Shell script and Keyboard Maestro macro to quickly insert system information int
 
 ### Background ###
 
-As someone who uses a lot of different software and tends to find a lot of 'edge cases' and other bugs, I often find myself emailing software developers or filling out support tickets. Often I know it would probably be *helpful* to include information about my Mac (both the hardware and the operating system) as well as precise information about the version of the software that I'm using.
+As someone who uses a lot of different software and tends to find a lot of 'edge cases' I often find myself emailing software developers or filling out support tickets to either ask a question or report a problem. I know it would be *helpful* to include information about my Mac (both the hardware and the operating system) as well as precise information about the version of the software that I'm using.
 
 But, to be honest, I'm often too lazy to include it.
 
@@ -17,6 +17,17 @@ Which is so say: sometimes developers can be lazy too.
 
 So I came up with an easy way to include the information without requiring much work.
 
+## How it looks
+
+With my script or Keyboard Maestro macro, I can automatically grab the version information for a specific app, as well as relevant information about my hardware and operating system.
+
+Here's an example of what the output would look like:
+
+<script src="https://gist.github.com/tjluoma/6146086.js"></script>
+
+*(Note: I'm just using [Fantastical] as an example of an app, not suggesting that it's buggy. In fact, I don't think I've ever run into a bug with it. If that doesn't show up properly for you, [checkout this direct link instead](https://raw.github.com/tjluoma/bugreporthelper/master/sample-output.md).)*
+
+
 ### How it works ###
 
 1. [bugreporthelper.sh] is a shell script that you can use in Terminal. Just type `bugreporthelper.sh` and it will ask you if you need information about a specific app. If you say yes, it will include version information about the app. Either way it will output relevant information about your hardware and operating system.
@@ -24,11 +35,6 @@ So I came up with an easy way to include the information without requiring much 
 2. [Bug-Report-Helper.kmmacros] is a [Keyboard Maestro] macro which will do the same thing without requiring that you be in Terminal. It will prompt you for the name of the App (or PreferencePane) and look for version information. It will also insert your relevant hardware and operating system information. 
 
 
-## How it looks
-
-Here's an example of what the output would look like:
-
-*(Note: I'm just using Fantastical as an example of an app, not suggesting that it's buggy. In fact, I don't think I've ever run into a bug with it.)*
 
 ### Installation ##
 
@@ -37,7 +43,7 @@ Here's an example of what the output would look like:
 2. [Bug-Report-Helper.kmmacros] - import into Keyboard Maestro (be sure to customize the keyboard shortcut and any other trigger you might want to add.)
 
 
-### Note ###
+### Notes ###
 
 1. The Keyboard Maestro macro tries to determine whether or not it can 'paste' the output of the command into the current application. 
 	* If it *can*, it will do so and then restore your previous clipboard (whatever was on there before this script ran).
@@ -46,8 +52,10 @@ Here's an example of what the output would look like:
 
 2. [bugreporthelper.sh] will ask whether or not you want the information added to the clipboard. It will also save the information in a temp file (either in $TMPDIR or /tmp).
 
-[Bug-Report-Helper.kmmacros]: Bug-Report-Helper.kmmacros
+[Bug-Report-Helper.kmmacros]: https://github.com/tjluoma/bugreporthelper/blob/master/Bug-Report-Helper.kmmacros
 
-[bugreporthelper.sh]: bugreporthelper.sh
+[bugreporthelper.sh]: https://github.com/tjluoma/bugreporthelper/blob/master/bugreporthelper.sh
 
 [Keyboard Maestro]: http://KeyboardMaestro.com
+
+[Fantastical]: http://flexibits.com/fantastical

@@ -7,7 +7,7 @@
 # Date:	2013-08-03
 
 ## NOTE:
-## Keyboard Maestro uses a modified version of this: km-bug-report.sh
+## Keyboard Maestro uses a modified version of this, but it is embedded in the macro itself
 
 
 NAME="$0:t:r"
@@ -18,9 +18,18 @@ umask 022
 
 touch "$TEMPFILE"
 
-echo -n "\nIf you are requesting support for an Application or PreferencePane, enter the name of it here (i.e. Dropbox, Hazel, etc): "
+if [ "$#" = "0" ]
+then
 
-read APP_NAME
+		echo -n "\nIf you are requesting support for an Application or PreferencePane, enter the name of it here (i.e. Dropbox, Hazel, etc): "
+
+		read APP_NAME
+
+else
+
+		APP_NAME="$@"
+fi
+
 
 mdfind filename:"$APP_NAME" -onlyin /Applications -onlyin /Library/PreferencePanes -onlyin ~/Applications -onlyin ~/Library/PreferencePanes | while read line
 do
@@ -40,11 +49,35 @@ fi
 done
 
 
-echo "\nHardware Information:" | tee -a "$TEMPFILE"
+echo "\nHardware Information (system_profiler):" | tee -a "$TEMPFILE"
 system_profiler SPHardwareDataType | egrep 'Model Name|Model Identifier|Processor|Cores|Cache|Memory' | tee -a "$TEMPFILE"
 
-echo "\nOperating System Information:" | tee -a "$TEMPFILE"
+echo "\nOperating System Information (sw_vers):" | tee -a "$TEMPFILE"
 sw_vers | sed 's#^#      #g' | tee -a "$TEMPFILE"
+
+echo "\nThird Party Kernel Extensions (kextstat):"  | tee -a "$TEMPFILE"
+kextstat | awk '{print $6}' | egrep -v '^com\.apple\.|^Name$' | sed 's#^#      #g' | tee -a "$TEMPFILE"
+
+echo "\nLogin Items (com.apple.loginitems): " | tee -a "$TEMPFILE"
+defaults read com.apple.loginitems | fgrep 'Name = ' | sed 's#^.*Name = "#      #g ; s#";##g' | tee -a "$TEMPFILE"
+
+for i in \
+	"$HOME/Library/LaunchAgents/" \
+	"$HOME/Library/LaunchDaemons/" \
+	"/Library/LaunchAgents/" \
+	"/Library/LaunchDaemons/"
+do
+
+	if [ -d "$i" ]
+	then
+			cd "$i"
+			echo "\nlaunchd items in: $i" | sed "s#$HOME#~#g" | tee -a "$TEMPFILE"
+			command ls -1 | egrep '\.plist$' | sed 's#^#      #g' | tee -a "$TEMPFILE"
+	fi
+
+done
+
+
 
 echo -n "\n$NAME: copy information above to the pasteboard (so it can be pasted into an email, etc)? [Y/n] "
 
