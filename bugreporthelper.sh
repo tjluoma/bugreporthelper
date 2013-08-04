@@ -56,7 +56,7 @@ echo "\nOperating System Information (sw_vers):" | tee -a "$TEMPFILE"
 sw_vers | sed 's#^#      #g' | tee -a "$TEMPFILE"
 
 echo "\nThird Party Kernel Extensions (kextstat):"  | tee -a "$TEMPFILE"
-kextstat | awk '{print $6}' | sort | egrep -v '^com\.apple\.|^Name$' | sed 's#^#      #g' | tee -a "$TEMPFILE"
+kextstat | tail -n+2 | awk '{print $6 " " $7}' | sort | egrep -v '^com\.apple\.' | sed 's#^#      #g' | tee -a "$TEMPFILE"
 
 echo "\nLogin Items (com.apple.loginitems): " | tee -a "$TEMPFILE"
 defaults read com.apple.loginitems | fgrep 'Name = ' | sed 's#^.*Name = "#      #g ; s#";##g' | tee -a "$TEMPFILE"
