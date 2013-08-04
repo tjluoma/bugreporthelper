@@ -1,0 +1,80 @@
+
+Version Information for: /Applications/Audio Hijack Pro.app
+      CFBundleShortVersionString 2.10.8 
+      CFBundleVersion 2.10.8 
+
+Hardware Information (system_profiler):
+      Model Name: MacBook Air
+      Model Identifier: MacBookAir3,2
+      Processor Name: Intel Core 2 Duo
+      Processor Speed: 2.13 GHz
+      Number of Processors: 1
+      Total Number of Cores: 2
+      L2 Cache: 6 MB
+      Memory: 4 GB
+
+Operating System Information (sw_vers):
+      ProductName:	Mac OS X
+      ProductVersion:	10.8.4
+      BuildVersion:	12E55
+
+Third Party Kernel Extensions (kextstat):
+      at.obdev.nke.LittleSnitch
+      com.rogueamoeba.InstantOn
+      com.avatron.AVExVideo
+      com.rogueamoeba.InstantOnCore
+      com.avatron.AVExFramebuffer
+      org.pqrs.driver.KeyRemap4MacBook
+      org.pqrs.driver.PCKeyboardHack
+
+Login Items (com.apple.loginitems): 
+      Activity Monitor
+      CrashPlan menu bar
+
+launchd items in: ~/Library/LaunchAgents/
+      com.apple.AddressBook.ScheduledSync.PHXCardDAVSource.D7033A24-43D8-4495-8B1F-587CA2533CE4.plist
+      com.crashplan.javacheck.plist
+      com.ecamm.printopia.plist
+      com.logos.LogosIndexer.plist
+      com.macupdate.desktop5.scanner.plist
+      com.spotify.webhelper.plist
+      com.tjluoma.check-for-dropbox-conflicted-copies.plist
+      com.tjluoma.crashplan-load-unload.plist
+      com.tjluoma.fix-bin-perms.plist
+      com.tjluoma.fix-launchagent-perms.plist
+      com.tjluoma.flycutmonitor.plist
+      com.tjluoma.is-dropbox-paused.plist
+      com.tjluoma.keeprunning.dropbox.plist
+      com.tjluoma.keeprunning.keyboardmaestroengine.plist
+      com.tjluoma.keeprunning.moveaddict.plist
+      com.tjluoma.sort-crashlogs.plist
+      cx.pow.powd.plist
+      de.bernhard-baehr.sleepwatcher.plist
+      ws.agile.1PasswordAgent.plist
+
+launchd items in: /Library/LaunchAgents/
+      at.obdev.LittleSnitchUIAgent.plist
+      com.amazon.sendtokindle.launcher.plist
+      com.oracle.java.Java-Updater.plist
+      org.glimmerblocker.updater.plist
+      org.pqrs.KeyRemap4MacBook.server.plist
+      org.pqrs.PCKeyboardHack.server.plist
+
+launchd items in: /Library/LaunchDaemons/
+      at.obdev.littlesnitchd.plist
+      com.adobe.fpsaud.plist
+      com.barebones.authd.plist
+      com.crashplan.engine.plist
+      com.easydns.ddns.daemon.plist
+      com.edovia.screensconnect.daemon.plist
+      com.google.keystone.daemon.plist
+      com.microsoft.office.licensing.helper.plist
+      com.oracle.java.Helper-Tool.plist
+      com.peterborgapps.LingonXHelper.plist
+      com.soma-zone.LaunchControl.Helper.plist
+      com.tjluoma.colorizeapps.plist
+      cx.pow.firewall.plist
+      org.glimmerblocker.proxy.plist
+      org.macosforge.xquartz.privileged_startx.plist
+      org.pqrs.KeyRemap4MacBook.load.plist
+      org.pqrs.PCKeyboardHack.load.plist
