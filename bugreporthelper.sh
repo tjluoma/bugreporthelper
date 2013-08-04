@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/zsh -f
 # Purpose: show relevant information about this Mac (helpful for bug reporting)
 #
 # From:	Tj Luo.ma
@@ -9,16 +9,26 @@
 ## NOTE:
 ## Keyboard Maestro uses a modified version of this, but it is embedded in the macro itself
 
-
 NAME="$0:t:r"
 
-TEMPFILE="${TMPDIR-/tmp/}${NAME}.${TIME}.$$.$RANDOM"
+zmodload zsh/datetime
+
+TEMPFILE="${TMPDIR-/tmp/}${NAME}.${EPOCHSECONDS}.$$.$RANDOM"
 
 umask 022
 
 touch "$TEMPFILE"
 
-if [ "$#" = "0" ]
+
+if [ "$1" = "--fromKM" ]
+then
+		FROM_KEYBOARD_MAESTRO=yes
+		shift
+else
+		FROM_KEYBOARD_MAESTRO=no
+fi
+
+if [ "$#" = "0" -a "$FROM_KEYBOARD_MAESTRO" = "no" ]
 then
 
 		echo -n "\nIf you are requesting support for an Application or PreferencePane, enter the name of it here (i.e. Dropbox, Hazel, etc): "
@@ -39,10 +49,19 @@ PLIST="$line/Contents/Info.plist"
 if [ -e "$PLIST" ]
 then
 
-echo "\nVersion Information for: $line" | tee -a "$TEMPFILE"
+	echo "\nVersion Information for: $line" | tee -a "$TEMPFILE"
 
-plutil -convert xml1 -o - "$PLIST" | egrep -A1 '(CFBundleVersion|CFBundleShortVersionString)' | sed 's#<key>##g; s#</key>##g ; s#<string>##g; s#</string>##g' | tr -s '\t|\012' ' ' | sed 's#--#\
-#g' | sed 's#^#     #g' | tee -a "$TEMPFILE"
+# Do not indent that one line
+	plutil -convert xml1 -o - "$PLIST" |\
+	egrep -A1 '(CFBundleVersion|CFBundleShortVersionString)' |\
+	sed 's#<key>##g; s#</key>##g ; s#<string>##g; s#</string>##g' |\
+	tr -s '\t|\012' ' ' |\
+	sed 's#--#\
+#g' |\
+	sed 's#^#     #g' |\
+	tee -a "$TEMPFILE"
+# Do not indent that one line
+
 
 fi
 
@@ -78,21 +97,27 @@ do
 done
 
 
+if [ "$FROM_KEYBOARD_MAESTRO" = "no" ]
+then
 
-echo -n "\n$NAME: copy information above to the pasteboard (so it can be pasted into an email, etc)? [Y/n] "
+			# if the script was NOT called from Keyboard Maestro then ask if the user wants the information copied to their pasteboard
 
-read ANS
+		echo -n "\n$NAME: copy information above to the pasteboard (so it can be pasted into an email, etc)? [Y/n] "
 
-case "$ANS" in
-	n*|N*)
-			exit 0
-	;;
+		read ANS
 
-	*)
-			pbcopy < $TEMPFILE && echo "$NAME: copied to pasteboard" && exit 0
-	;;
+		case "$ANS" in
+			n*|N*)
+					exit 0
+			;;
 
-esac
+			*)
+					pbcopy < $TEMPFILE && echo "$NAME: copied to pasteboard" && exit 0
+			;;
+
+		esac
+
+fi
 
 
 exit
