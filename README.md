@@ -21,12 +21,7 @@ So I came up with an easy way to include the information without requiring much 
 
 With my script or Keyboard Maestro macro, I can automatically grab the version information for a specific app, as well as relevant information about my hardware and operating system.
 
-Here's an example of what the output would look like:
-
-<script src="https://gist.github.com/tjluoma/6146086.js"></script>
-
-*(Note: I'm just using [Fantastical] as an example of an app, not suggesting that it's buggy. In fact, I don't think I've ever run into a bug with it. If that doesn't show up properly for you, [checkout this direct link instead](https://raw.github.com/tjluoma/bugreporthelper/master/sample-output.md).)*
-
+[sample-output.txt] will show you a (wait for it) sample of the output.
 
 ### How it works ###
 
@@ -56,6 +51,7 @@ Here's an example of what the output would look like:
 
 [bugreporthelper.sh]: https://github.com/tjluoma/bugreporthelper/blob/master/bugreporthelper.sh
 
+[sample-output.txt]: https://github.com/tjluoma/bugreporthelper/blob/master/sample-output.txt
+
 [Keyboard Maestro]: http://KeyboardMaestro.com
 
-[Fantastical]: http://flexibits.com/fantastical
